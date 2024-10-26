@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 code {
@@ -13,4 +14,8 @@ code {
 
 .ant-btn-primary {
   background-color: "#1677ff";
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
 }
