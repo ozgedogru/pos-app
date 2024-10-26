@@ -4,7 +4,6 @@
 
 body {
   margin: 0;
-  overflow: hidden;
 }
 
 code {
@@ -18,4 +17,19 @@ code {
 
 .categories::-webkit-scrollbar {
   display: none;
+}
+.products::-webkit-scrollbar {
+  display: none;
+}
+.cart-items::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  @apply flex items-center justify-center text-center bg-orange-700 text-white py-8 px-4 md:w-full md:py-10 min-w-32 h-14 min-h-12 rounded-lg cursor-pointer hover:scale-95 transition-all duration-300;
+}
+@media (min-width: 768px) {
+  body {
+    overflow: hidden;
+  }
 }

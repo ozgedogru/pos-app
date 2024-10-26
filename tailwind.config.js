@@ -13,7 +13,7 @@ module.exports = {
         red: "#B8001F",
       },
       gridTemplateColumns: {
-        card: "repeat(auto-fill, minmax(150px, 2fr))",
+        card: "repeat(auto-fill, minmax(150px, 1fr))",
       },
     },
   },

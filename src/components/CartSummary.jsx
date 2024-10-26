@@ -3,7 +3,7 @@ import { ClearOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 const CartSummary = () => {
   return (
-    <div className="cart h-full max-h-[calc(100vh_-_96px)] flex flex-col">
+    <div className="cart h-full max-h-[calc(100vh_-_100px)] min-h-[400px] mb-20 py-4 md:pb-0 md:pt-0 flex flex-col">
       <div className="bg-navy text-gray-100 p-4">
         <h2 className="font-bold tracking-wide">Grocery Cart </h2>
       </div>
