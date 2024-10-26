@@ -22,7 +22,7 @@ const Header = () => {
         </div>
         <div className="menu-links flex md:justify-center justify-evenly items-center md:gap-8 gap-2 md:static fixed z-50 bottom-0 md:w-auto w-screen md:bg-transparent bg-white left-0 md:border-t-0 border-t md:px-0 px-4 py-1">
           <a
-            href="menu"
+            href="/"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <HomeOutlined className=" md:text-2xl text-xl" />
@@ -30,7 +30,7 @@ const Header = () => {
           </a>
           <Badge count={5} className="md:flex hidden">
             <a
-              href="menu"
+              href="cart"
               className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
             >
               <ShoppingCartOutlined className=" md:text-2xl text-xl" />
@@ -38,28 +38,28 @@ const Header = () => {
             </a>
           </Badge>
           <a
-            href="menu"
+            href="invoice"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <FileTextOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Invoices</span>
           </a>
           <a
-            href="menu"
+            href="customers"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <UserOutlined className=" md:text-2xl text-xl" />
-            <span className="md:text-xs text-[10px]">Customer</span>
+            <span className="md:text-xs text-[10px]">Customers</span>
           </a>
           <a
-            href="menu"
+            href="statistics"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <BarChartOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Statistics</span>
           </a>
           <a
-            href="menu"
+            href="/"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <LogoutOutlined className=" md:text-2xl text-xl" />
