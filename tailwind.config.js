@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         sans: ["Nunito", "sans-serif"],
       },
+      gridTemplateColumns: {
+        card: "repeat(auto-fill, minmax(150px, 2fr))",
+      },
     },
   },
   plugins: [],
