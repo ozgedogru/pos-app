@@ -4,7 +4,6 @@ import PageContent from "./pages/PageContent";
 function App() {
   return (
     <div>
-      <Header />
       <PageContent />
     </div>
   );
