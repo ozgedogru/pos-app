@@ -12,15 +12,20 @@ code {
 }
 
 .ant-btn-primary {
-  background-color: "#1677ff";
+  background-color: #0b192c;
+  pointer-events: non;
+}
+.ant-btn-primary:hover {
+  background-color: #0b192c !important;
+  cursor: pointer;
+}
+.ant-btn-danger:hover {
+  background-color: #b8001f !important;
+  cursor: pointer;
 }
 
-.categories::-webkit-scrollbar {
-  display: none;
-}
-.products::-webkit-scrollbar {
-  display: none;
-}
+.categories::-webkit-scrollbar,
+.products::-webkit-scrollbar,
 .cart-items::-webkit-scrollbar {
   display: none;
 }

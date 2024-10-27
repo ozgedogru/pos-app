@@ -53,10 +53,11 @@ const CartSummary = () => {
           </div>
         </div>
         <div className="buttons flex flex-col justify-center gap-1">
-          <Button className="bg-blue text-white hover:text-blue font-semibold">
+          <Button type="primary" className="bg-blue text-white font-semibold">
             Complete
           </Button>
           <Button
+            type="danger"
             className="bg-red text-white font-semibold"
             icon={<ClearOutlined />}
           >
