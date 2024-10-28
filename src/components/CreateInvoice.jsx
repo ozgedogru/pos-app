@@ -1,7 +1,7 @@
 import { Button, Card, Form, Input, Modal, Select } from "antd";
 import React from "react";
 
-const Invoice = ({ isModalOpen, setIsModalOpen }) => {
+const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const { Option } = Select;
   const onFinish = (values) => {
     console.log("values: ", values);
@@ -72,7 +72,7 @@ const Invoice = ({ isModalOpen, setIsModalOpen }) => {
             <div className="flex justify-end">
               <Button
                 type="primary"
-                className="mt-4 bg-green-700 text-white border-none"
+                className="mt-4 text-white border-none"
                 size="large"
                 htmlType="submit"
               >
@@ -86,4 +86,4 @@ const Invoice = ({ isModalOpen, setIsModalOpen }) => {
   );
 };
 
-export default Invoice;
+export default CreateInvoice;

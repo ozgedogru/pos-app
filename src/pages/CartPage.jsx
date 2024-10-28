@@ -1,6 +1,6 @@
 import { Button, Card, Table } from "antd";
 import { useState } from "react";
-import Invoice from "../components/Invoice";
+import CreateInvoice from "../components/CreateInvoice";
 
 const CartPage = () => {
   const dataSource = [
@@ -102,7 +102,10 @@ const CartPage = () => {
             Create Order
           </Button>
         </Card>
-        <Invoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <CreateInvoice
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       </div>
     </div>
   );
