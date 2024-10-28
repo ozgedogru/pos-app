@@ -31,7 +31,7 @@ const Header = () => {
           </Link>
           <Badge count={5} className="md:flex hidden">
             <Link
-              to="cart"
+              to="/cart"
               className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
             >
               <ShoppingCartOutlined className=" md:text-2xl text-xl" />
@@ -39,21 +39,21 @@ const Header = () => {
             </Link>
           </Badge>
           <Link
-            to="invoice"
+            to="/invoice"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <FileTextOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Invoices</span>
           </Link>
           <Link
-            to="customers"
+            to="/customers"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <UserOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Customers</span>
           </Link>
           <Link
-            to="statistics"
+            to="/statistics"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
             <BarChartOutlined className=" md:text-2xl text-xl" />

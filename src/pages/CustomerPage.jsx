@@ -1,5 +1,6 @@
 import { Table } from "antd";
 import React from "react";
+import Header from "../components/Header";
 
 const CustomerPage = () => {
   const dataSource = [
@@ -55,9 +56,12 @@ const CustomerPage = () => {
   ];
 
   return (
-    <div className="px-6">
-      <h1 className="text-3xl font-bold text-center mb-4">Customers</h1>
-      <Table dataSource={dataSource} columns={columns} bordered></Table>
+    <div>
+      <Header />
+      <div className="px-6">
+        <h1 className="text-3xl font-bold text-center mb-4">Customers</h1>
+        <Table dataSource={dataSource} columns={columns} bordered></Table>
+      </div>
     </div>
   );
 };

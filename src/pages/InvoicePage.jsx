@@ -1,6 +1,7 @@
 import { Button, Table } from "antd";
 import { useState } from "react";
 import PrintInvoice from "../components/PrintInvoice";
+import Header from "../components/Header";
 
 const InvoicePage = () => {
   const dataSource = [
@@ -72,14 +73,17 @@ const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="px-6">
-      <h1 className="text-3xl font-bold text-center mb-4">Invoices</h1>
-      <Table dataSource={dataSource} columns={columns} bordered></Table>
-      <div className="cart-total flex justify-end mt-8">
-        <PrintInvoice
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
+    <div>
+      <Header />
+      <div className="px-6">
+        <h1 className="text-3xl font-bold text-center mb-4">Invoices</h1>
+        <Table dataSource={dataSource} columns={columns} bordered></Table>
+        <div className="cart-total flex justify-end mt-8">
+          <PrintInvoice
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+          />
+        </div>
       </div>
     </div>
   );

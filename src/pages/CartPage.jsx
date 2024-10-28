@@ -1,6 +1,7 @@
 import { Button, Card, Table } from "antd";
 import { useState } from "react";
 import CreateInvoice from "../components/CreateInvoice";
+import Header from "../components/Header";
 
 const CartPage = () => {
   const dataSource = [
@@ -75,37 +76,40 @@ const CartPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="px-6">
-      <Table dataSource={dataSource} columns={columns} bordered></Table>
-      <div className="cart-total flex justify-end mt-8">
-        <Card className="w-72 shadow-lg">
-          <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>100.00 HUF</span>
-          </div>
-          <div className="flex justify-between">
-            <span>VAT (%18)</span>
-            <span className="text-red">+18.00 HUF</span>
-          </div>
-          <div className="flex justify-between mt-2">
-            <b>Total</b>
-            <b>118.00 HUF</b>
-          </div>
-          <Button
-            className="mt-2 w-full bg-green-700 text-white border-none"
-            size="large"
-            type="primary"
-            onClick={() => {
-              setIsModalOpen(true);
-            }}
-          >
-            Create Order
-          </Button>
-        </Card>
-        <CreateInvoice
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
+    <div>
+      <Header />
+      <div className="px-6">
+        <Table dataSource={dataSource} columns={columns} bordered></Table>
+        <div className="cart-total flex justify-end mt-8">
+          <Card className="w-72 shadow-lg">
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>100.00 HUF</span>
+            </div>
+            <div className="flex justify-between">
+              <span>VAT (%18)</span>
+              <span className="text-red">+18.00 HUF</span>
+            </div>
+            <div className="flex justify-between mt-2">
+              <b>Total</b>
+              <b>118.00 HUF</b>
+            </div>
+            <Button
+              className="mt-2 w-full bg-green-700 text-white border-none"
+              size="large"
+              type="primary"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              Create Order
+            </Button>
+          </Card>
+          <CreateInvoice
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+          />
+        </div>
       </div>
     </div>
   );
