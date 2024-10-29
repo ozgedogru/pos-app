@@ -86,7 +86,7 @@ const RegisterPage = () => {
               src="https://cdn.pixabay.com/photo/2021/04/21/02/52/baker-6195297_1280.png"
               alt="Carousel 1"
             />
-            <div className="absolute bottom-20 left-20 bg-black bg-opacity-30 text-white rounded-3xl p-4">
+            <div className="absolute bottom-20 left-20 text-beige rounded-3xl p-4">
               <p className="text-sm md:text-base w-56">
                 Sweeten Your Day:
                 <br /> Discover our delicious cakes, cookies, and desserts
@@ -100,7 +100,7 @@ const RegisterPage = () => {
               src="https://cdn.pixabay.com/photo/2021/10/20/01/02/grocery-6724884_1280.png"
               alt="Carousel 2"
             />
-            <div className="absolute top-8 left-44 bg-black bg-opacity-30 text-white rounded-3xl p-4">
+            <div className="absolute top-8 left-44 text-navy rounded-3xl p-4">
               <p className="text-sm md:text-base">
                 Discover Fresh Produce: Quality ingredients sourced from local
                 farmers for your daily meals.
@@ -113,8 +113,8 @@ const RegisterPage = () => {
               src="https://cdn.pixabay.com/photo/2022/03/25/01/57/online-shop-7090124_1280.png"
               alt="Carousel 3"
             />
-            <div className="absolute top-20 left-[40rem] bg-black bg-opacity-30 text-white rounded-3xl p-4">
-              <p className="text-sm md:text-base w-56">
+            <div className="absolute top-20 left-[40rem] text-beige rounded-3xl p-4">
+              <p className="text-sm md:text-base text-right w-56">
                 Transform Your Kitchen:
                 <br /> Find everything you need to create delightful meals and
                 unforgettable moments.
