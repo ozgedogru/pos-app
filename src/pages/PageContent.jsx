@@ -5,6 +5,7 @@ import InvoicePage from "./InvoicePage";
 import CustomerPage from "./CustomerPage";
 import StatisticPage from "./StatisticPage";
 import RegisterPage from "./RegisterPage";
+import LoginPage from "./LoginPage";
 
 const PageContent = () => {
   return (
@@ -16,6 +17,7 @@ const PageContent = () => {
         <Route path="/customers" element={<CustomerPage />} />
         <Route path="/statistics" element={<StatisticPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );
