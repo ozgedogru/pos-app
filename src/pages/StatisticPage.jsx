@@ -29,7 +29,7 @@ const StatisticPage = () => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   return (
-    <div>
+    <div className="h-screen">
       <Header />
       <div className="px-6">
         <div className="px-2">

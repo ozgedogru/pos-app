@@ -11,7 +11,7 @@ import { Badge } from "antd";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
-    <div className="border-b mb-6">
+    <div className="border-b mb-6 h-[5.5rem]">
       <header className="py-4 px-8 flex justify-between items-center md:gap-8 gap-4">
         <div className="logo">
           <Link to="/" className="text-2xl md:text-4xl font-bold">
