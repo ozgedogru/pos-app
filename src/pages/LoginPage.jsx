@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const LoginPage = () => {
   return (
     <div className="h-screen flex">
-      <div className="flex flex-col justify-center w-full md:w-1/3 min-h-1/2 px-10 xl:px-20">
+      <div className="flex flex-col justify-center w-full md:w-1/3 min-h-1/2 px-10 xl:px-20 bg-beige">
         <h1 className="text-center text-5xl font-bold mb-10">LOGO</h1>
         <Form
           name="registration"
@@ -22,7 +22,10 @@ const LoginPage = () => {
               },
             ]}
           >
-            <Input placeholder="Enter your email" />
+            <Input
+              className="bg-beige border-none shadow-lg"
+              placeholder="Enter your email"
+            />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -33,7 +36,10 @@ const LoginPage = () => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="Enter your password" />
+            <Input.Password
+              className="bg-beige border-none shadow-lg"
+              placeholder="Enter your password"
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="w-full">
