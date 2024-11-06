@@ -30,7 +30,7 @@ const HomePage = () => {
           <Categories categories={categories} />
         </div>
         <div className="products flex-[8] overflow-y-auto max-h-[calc(100vh_-_7rem)] pb-8">
-          <Products />
+          <Products categories={categories} />
         </div>
         <div className="cart-summary shadow-2xl flex-1 min-w-[300px] md:-mr-[24px] md:-mt-[1.5rem]">
           <CartSummary />
