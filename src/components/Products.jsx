@@ -1,11 +1,14 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Products = ({ categories }) => {
   const [products, setProducts] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [addForm] = Form.useForm();
+
+  const navigate = useNavigate();
 
   const onAddFinish = async (values) => {
     try {
@@ -59,7 +62,7 @@ const Products = ({ categories }) => {
       <div className="product-card border rounded-md shadow-md cursor-pointer select-none">
         <Button
           type="primary"
-          className="w-full h-full font-semibold"
+          className="w-full h-full min-h-28 font-semibold"
           onClick={() => {
             setIsAddModalOpen(true);
           }}
@@ -68,7 +71,11 @@ const Products = ({ categories }) => {
         </Button>
       </div>
       <div className="product-card border rounded-md shadow-md cursor-pointer select-none">
-        <Button type="primary" className="w-full h-full font-semibold">
+        <Button
+          type="primary"
+          onClick={() => navigate("/products")}
+          className="w-full h-full min-h-28 font-semibold"
+        >
           Edit Product
         </Button>
       </div>
