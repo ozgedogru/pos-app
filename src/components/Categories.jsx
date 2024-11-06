@@ -1,24 +1,115 @@
-import { Button, Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, message, Modal, Table } from "antd";
 import axios from "axios";
 import { useState } from "react";
 
 const Categories = ({ categories }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingRow, setEditingRow] = useState({});
 
-  const onFinish = async (values) => {
+  const [addForm] = Form.useForm();
+  const [editForm] = Form.useForm();
+
+  const columns = [
+    {
+      title: "Category Title",
+      dataIndex: "title",
+      render: (_, record) => {
+        if (record._id === editingRow._id) {
+          return (
+            <Form.Item className="mb-0" name="title">
+              <Input defaultValue={record.title} />
+            </Form.Item>
+          );
+        } else {
+          return <p>{record.title}</p>;
+        }
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => {
+        return (
+          <div>
+            <Button
+              type="link"
+              className="text-blue font-semibold pl-0"
+              onClick={() => setEditingRow(record)}
+            >
+              Edit
+            </Button>
+            <Button
+              type="text"
+              className="text-navy font-semibold"
+              htmlType="submit"
+            >
+              Save
+            </Button>
+            <Button
+              type="text"
+              className="text-red font-semibold"
+              onClick={() => confirmDeleteCategory(record._id)}
+            >
+              Delete
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  const onAddFinish = async (values) => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/categories/add-category",
         values
       );
-      message.success("A new category added!");
-      form.resetFields();
-      setIsModalOpen(false);
+      message.success(res.data);
+      addForm.resetFields();
+      setIsAddModalOpen(false);
     } catch (error) {
       console.log(error);
       message.error("Failed to add category. Please try again.");
     }
+  };
+
+  const onEditFinish = async (values) => {
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/categories/update-category",
+        { ...values, categoryId: editingRow._id }
+      );
+      message.success(res.data);
+      editForm.resetFields();
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteCategory = async (id) => {
+    try {
+      const res = await axios.delete(
+        "http://localhost:5000/api/categories/delete-category",
+        { data: { categoryId: id } }
+      );
+      message.success(res.data);
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const confirmDeleteCategory = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this category?",
+      content: "This action cannot be undone.",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => deleteCategory(id),
+    });
   };
 
   return (
@@ -32,20 +123,28 @@ const Categories = ({ categories }) => {
         <li
           className="category-item"
           onClick={() => {
-            setIsModalOpen(true);
+            setIsAddModalOpen(true);
           }}
         >
           + Add New Category
         </li>
+        <li
+          className="category-item"
+          onClick={() => {
+            setIsEditModalOpen(true);
+          }}
+        >
+          Edit Category
+        </li>
         <Modal
-          title="Basic Modal"
-          open={isModalOpen}
+          title="Add New Category"
+          open={isAddModalOpen}
           onCancel={() => {
-            setIsModalOpen(false);
+            setIsAddModalOpen(false);
           }}
           footer={null}
         >
-          <Form layout="vertical" onFinish={onFinish} form={form}>
+          <Form layout="vertical" onFinish={onAddFinish} form={addForm}>
             <Form.Item
               label="Add Category"
               name="title"
@@ -63,6 +162,24 @@ const Categories = ({ categories }) => {
                 Create
               </Button>
             </Form.Item>
+          </Form>
+        </Modal>
+        <Modal
+          title="Edit Category"
+          open={isEditModalOpen}
+          onCancel={() => {
+            setIsEditModalOpen(false);
+          }}
+          footer={null}
+        >
+          <Form onFinish={onEditFinish} form={editForm}>
+            <Table
+              bordered
+              dataSource={categories}
+              columns={columns}
+              rowKey={"_id"}
+              pagination={false}
+            />
           </Form>
         </Modal>
       </ul>
