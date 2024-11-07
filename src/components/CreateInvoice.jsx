@@ -1,6 +1,7 @@
 import { Button, Card, Form, Input, Modal, notification, Select } from "antd";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCart } from "../features/cartSlice";
 
 const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const { Option } = Select;
@@ -8,6 +9,7 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
     (state) => state.cart
   );
 
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
@@ -23,6 +25,7 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
         message: "Invoice Created",
         description: "The order was created successfully!",
       });
+      dispatch(resetCart());
       form.resetFields();
       setIsModalOpen(false);
     } catch (error) {
