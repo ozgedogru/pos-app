@@ -95,41 +95,43 @@ const RegisterPage = () => {
           <div className="relative">
             <img
               className="h-full w-full object-cover min-h-screen"
-              src="https://cdn.pixabay.com/photo/2021/04/21/02/52/baker-6195297_1280.png"
+              src="https://cdn.pixabay.com/photo/2017/07/31/19/27/coffee-2560260_1280.jpg"
               alt="Carousel 1"
             />
-            <div className="absolute bottom-20 left-20 text-beige rounded-3xl p-4">
-              <p className="text-sm md:text-base w-56">
-                Sweeten Your Day:
-                <br /> Discover our delicious cakes, cookies, and desserts
-                perfect for any occasion.
+            <div className="absolute top-20 left-20 w-8/12 text-beige font-semibold rounded-3xl p-4">
+              <p className="md:text-base">
+                Manage your business effortlessly, whether on mobile or desktop!
+                Log in to oversee your orders and performance, and stay focused
+                on growth with accessible, real-time statistics.
               </p>
             </div>
           </div>
           <div className="relative">
             <img
               className="h-full w-full object-cover min-h-screen"
-              src="https://cdn.pixabay.com/photo/2021/10/20/01/02/grocery-6724884_1280.png"
+              src="https://cdn.pixabay.com/photo/2017/08/11/15/13/coffee-2631739_1280.jpg"
               alt="Carousel 2"
             />
-            <div className="absolute top-8 left-44 text-navy rounded-3xl p-4">
+            <div className="absolute bottom-16 left-20 w-3/4 text-beige font-semibold rounded-3xl p-4">
               <p className="text-sm md:text-base">
-                Discover Fresh Produce: Quality ingredients sourced from local
-                farmers for your daily meals.
+                Enhance your business with data-driven insights! Register today
+                to manage orders seamlessly on all devices, while tracking your
+                performance with detailed statistics.
               </p>
             </div>
           </div>
           <div className="relative">
             <img
               className="h-full w-full object-cover min-h-screen object-left"
-              src="https://cdn.pixabay.com/photo/2022/03/25/01/57/online-shop-7090124_1280.png"
+              src="https://cdn.pixabay.com/photo/2017/08/11/14/03/coffee-beans-2631130_1280.jpg"
               alt="Carousel 3"
             />
-            <div className="absolute top-20 left-[40rem] text-beige rounded-3xl p-4">
-              <p className="text-sm md:text-base text-right w-56">
-                Transform Your Kitchen:
-                <br /> Find everything you need to create delightful meals and
-                unforgettable moments.
+            <div className="absolute top-10 left-[4rem] text-navy font-semibold rounded-3xl p-4">
+              <p className="text-sm md:text-base text-right w-5/6">
+                Create an account in just a few step and keep track of your
+                business performance anytime, anywhere. With a responsive design
+                and comprehensive order statistics, elevate your coffee house
+                management!
               </p>
             </div>
           </div>
