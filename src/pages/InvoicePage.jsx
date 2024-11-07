@@ -1,38 +1,14 @@
 import { Button, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrintInvoice from "../components/PrintInvoice";
 import Header from "../components/Header";
+import axios from "axios";
 
 const InvoicePage = () => {
-  const dataSource = [
-    {
-      key: "1",
-      customerName: "John Doe",
-      phoneNumber: "+1 (555) 123-4567",
-      creationDate: "2023-10-01",
-      paymentMethod: "Credit Card",
-      totalPrice: 150.0,
-      action: "Edit/Delete",
-    },
-    {
-      key: "2",
-      customerName: "Jane Smith",
-      phoneNumber: "+1 (555) 987-6543",
-      creationDate: "2023-10-05",
-      paymentMethod: "Cash",
-      totalPrice: 200.0,
-      action: "Edit/Delete",
-    },
-    {
-      key: "3",
-      customerName: "Emily Johnson",
-      phoneNumber: "+1 (555) 333-2222",
-      creationDate: "2023-10-10",
-      paymentMethod: "Bank Transfer",
-      totalPrice: 300.0,
-      action: "Edit/Delete",
-    },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+  const [customer, setCustomer] = useState({});
+
   const columns = [
     {
       title: "Customer Name",
@@ -41,47 +17,76 @@ const InvoicePage = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "customerPhone",
+      key: "customerPhone",
     },
     {
       title: "Creation Date",
-      dataIndex: "creationDate",
-      key: "creationDate",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => {
+        return <span>{text.substring(0, 10)}</span>;
+      },
     },
     {
       title: "Payment Method",
-      dataIndex: "paymentMethod",
-      key: "paymentMethod",
+      dataIndex: "paymentMode",
+      key: "paymentMode",
     },
     {
       title: "Total Price",
-      dataIndex: "totalPrice",
-      key: "totalPrice",
-      render: (totalPrice) => `${totalPrice.toFixed(2)} HUF`,
+      dataIndex: "total",
+      key: "total",
+      render: (totalPrice) => `${totalPrice} HUF`,
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: () => (
-        <Button onClick={() => setIsModalOpen(true)}>Yazdır</Button>
+      render: (_, record) => (
+        <Button
+          onClick={() => {
+            setIsModalOpen(true);
+            setCustomer(record);
+          }}
+        >
+          Print
+        </Button>
       ),
     },
   ];
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    const getInvoices = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/invoice/get-all"
+        );
+        setDataSource(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInvoices();
+  }, []);
 
   return (
     <div>
       <Header />
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Invoices</h1>
-        <Table dataSource={dataSource} columns={columns} bordered></Table>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          scroll={{ x: 1000, y: 300 }}
+          pagination={false}
+          bordered
+        ></Table>
         <div className="cart-total flex justify-end mt-8">
           <PrintInvoice
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
+            customer={customer}
           />
         </div>
       </div>

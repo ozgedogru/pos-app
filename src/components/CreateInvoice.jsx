@@ -15,9 +15,9 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
       await axios.post("http://localhost:5000/api/invoice/create-invoice", {
         ...values,
         cartItems: items,
-        subTotal: subTotal.toFixed(2),
-        tax: (taxRate * subTotal).toFixed(2),
-        total: totalAmount.toFixed(2),
+        subTotal: subTotal,
+        tax: taxRate * subTotal,
+        total: totalAmount,
       });
       notification.success({
         message: "Invoice Created",
@@ -76,11 +76,11 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
             ]}
           >
             <Select placeholder="Select payment method">
-              <Option value="creditCard">Credit Card</Option>
-              <Option value="paypal" disabled>
+              <Option value="Credit Card">Credit Card</Option>
+              <Option value="PayPal" disabled>
                 PayPal (Unavailable)
               </Option>
-              <Option value="cash">Cash</Option>
+              <Option value="Cash">Cash</Option>
             </Select>
           </Form.Item>
           <Card>

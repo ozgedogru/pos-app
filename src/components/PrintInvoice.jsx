@@ -1,7 +1,19 @@
 import { Button, Modal } from "antd";
 import React from "react";
 
-const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
+const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
+  const createdAt = new Date(customer.createdAt);
+  const dueDate = new Date(createdAt);
+  dueDate.setDate(createdAt.getDate() + 30);
+
+  const formatDate = (date) => {
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <div>
       <Modal
@@ -27,22 +39,22 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                 <div className="flex flex-col flex-1 gap-2">
                   <div className="flex flex-col">
                     <b>Billed To:</b>
-                    <span className="text-xs">John Doe</span>
-                    <span className="text-xs">+1 (555) 123-4567</span>
+                    <span className="text-xs">{customer.customerName}</span>
+                    <span className="text-xs">{customer.customerPhone}</span>
                   </div>
                   <div className="flex flex-col">
                     <b>Terms</b>
-                    <span className="text-xs">November 27, 2024</span>
+                    <span className="text-xs">{formatDate(dueDate)}</span>
                   </div>
                 </div>
                 <div className="flex flex-col flex-1 gap-2">
                   <div className="flex flex-col">
                     <b>Date of Issue</b>
-                    <span className="text-xs">October 27, 2024</span>
+                    <span className="text-xs">{formatDate(createdAt)}</span>
                   </div>
                   <div className="flex flex-col">
                     <b>Due</b>
-                    <span className="text-xs">November 27, 2024</span>
+                    <span className="text-xs">{formatDate(dueDate)}</span>{" "}
                   </div>
                 </div>
               </div>
@@ -83,46 +95,35 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 text-slate-700">
-                    <tr className="text-center">
-                      <td className="py-4 pl-4 md:table-cell hidden">
-                        <img
-                          src="https://cdn.pixabay.com/photo/2016/10/17/09/25/vines-1747224_1280.jpg"
-                          alt="test"
-                          className="h-12 w-12 object-cover"
-                        />
-                      </td>
-                      <td className="sm:flex-1 text-start md:text-center py-2 md:py-0">
-                        Sample Product
-                        <div className="md:hidden">
-                          <span className="text-[0.7rem]">
-                            Unit Price: 12.00 HUF x 2
-                          </span>
-                        </div>
-                      </td>
-                      <td className="sm:flex-1 md:table-cell hidden">12.00</td>
-                      <td className="sm:flex-1 md:table-cell hidden">2</td>
-                      <td className="text-right pr-4">24.00 HUF</td>
-                    </tr>
-                    <tr className="text-center">
-                      <td className="py-4 pl-4 md:table-cell hidden">
-                        <img
-                          src="https://cdn.pixabay.com/photo/2022/09/10/17/27/loaf-7445434_1280.jpg"
-                          alt="test"
-                          className="h-12 w-12 object-cover"
-                        />
-                      </td>
-                      <td className="sm:flex-1 text-start md:text-center py-2 md:py-0">
-                        Sample Product
-                        <div className="md:hidden">
-                          <span className="text-[0.7rem]">
-                            Unit Price: 12.00 HUF x 2
-                          </span>
-                        </div>
-                      </td>
-                      <td className="sm:flex-1 md:table-cell hidden">12.00</td>
-                      <td className="sm:flex-1 md:table-cell hidden">2</td>
-                      <td className="text-right pr-4">24.00 HUF</td>
-                    </tr>
+                    {customer?.cartItems?.map((product) => (
+                      <tr className="text-center">
+                        <td className="py-4 pl-4 md:table-cell hidden">
+                          <img
+                            src={product.img}
+                            alt="test"
+                            className="h-12 w-12 object-cover"
+                          />
+                        </td>
+                        <td className="sm:flex-1 text-start md:text-center py-2 md:py-0">
+                          {product.title}
+                          <div className="md:hidden">
+                            <span className="text-[0.7rem]">
+                              Unit Price: {product.price} HUF x{" "}
+                              {product.quantity}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="sm:flex-1 md:table-cell hidden">
+                          {product.price}
+                        </td>
+                        <td className="sm:flex-1 md:table-cell hidden">
+                          {product.quantity}
+                        </td>
+                        <td className="text-right pr-4">
+                          {product.totalPrice} HUF
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -137,7 +138,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                         colSpan="4"
                         className="text-right font-normal pt-6 pr-4"
                       >
-                        64 HUF
+                        {customer.subTotal} HUF
                       </th>
                     </tr>
                     <tr>
@@ -152,7 +153,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                         colSpan="4"
                         className="text-right font-normal text-red pt-2 pr-4"
                       >
-                        +12.8 HUF
+                        {customer.tax} HUF
                       </th>
                     </tr>
                     <tr>
@@ -164,7 +165,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                         Total
                       </th>
                       <th colSpan="4" className="text-right pt-2 pr-4">
-                        76.8 HUF
+                        {customer.total} HUF
                       </th>
                     </tr>
                   </tfoot>
