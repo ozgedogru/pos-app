@@ -1,11 +1,17 @@
 import { Button, Card, Form, Input, Modal, Select } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const { Option } = Select;
   const onFinish = (values) => {
     console.log("values: ", values);
   };
+
+  const { items, subTotal, taxRate, totalAmount } = useSelector(
+    (state) => state.cart
+  );
+
   return (
     <div>
       <Modal
@@ -59,15 +65,35 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
           <Card>
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>100.00 HUF</span>
+              <span>
+                {subTotal === 0
+                  ? "0 HUF"
+                  : new Intl.NumberFormat("hu-HU", {
+                      style: "currency",
+                      currency: "HUF",
+                    }).format(subTotal)}
+              </span>
             </div>
-            <div className="flex justify-between">
-              <span>VAT (%18)</span>
-              <span className="text-red">+18.00 HUF</span>
+            <div className="flex justify-between text-red">
+              <span>VAT %{taxRate * 100}</span>
+              <span>
+                {subTotal * taxRate === 0
+                  ? "0 HUF"
+                  : "+" +
+                    new Intl.NumberFormat("hu-HU", {
+                      style: "currency",
+                      currency: "HUF",
+                    }).format(subTotal * taxRate)}
+              </span>
             </div>
-            <div className="flex justify-between mt-2">
+            <div className="flex justify-between text-xl border-t mt-2 pt-2">
               <b>Total</b>
-              <b>118.00 HUF</b>
+              <span>
+                {new Intl.NumberFormat("hu-HU", {
+                  style: "currency",
+                  currency: "HUF",
+                }).format(totalAmount)}
+              </span>
             </div>
             <div className="flex justify-end">
               <Button
