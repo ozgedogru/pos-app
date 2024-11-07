@@ -7,7 +7,9 @@ import { addItem, clearItem, removeItem } from "../features/cartSlice";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 const CartPage = () => {
-  const { items } = useSelector((state) => state.cart);
+  const { items, subTotal, taxRate, totalAmount } = useSelector(
+    (state) => state.cart
+  );
 
   const dispatch = useDispatch();
 
@@ -110,15 +112,35 @@ const CartPage = () => {
           <Card className="w-72 shadow-lg">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>100.00 HUF</span>
+              <span>
+                {subTotal === 0
+                  ? "0 HUF"
+                  : new Intl.NumberFormat("hu-HU", {
+                      style: "currency",
+                      currency: "HUF",
+                    }).format(subTotal)}
+              </span>
             </div>
-            <div className="flex justify-between">
-              <span>VAT (%18)</span>
-              <span className="text-red">+18.00 HUF</span>
+            <div className="flex justify-between text-red">
+              <span>VAT %{taxRate * 100}</span>
+              <span>
+                {subTotal * taxRate === 0
+                  ? "0 HUF"
+                  : "+" +
+                    new Intl.NumberFormat("hu-HU", {
+                      style: "currency",
+                      currency: "HUF",
+                    }).format(subTotal * taxRate)}
+              </span>
             </div>
-            <div className="flex justify-between mt-2">
+            <div className="flex justify-between text-xl border-t mt-2 pt-2">
               <b>Total</b>
-              <b>118.00 HUF</b>
+              <span>
+                {new Intl.NumberFormat("hu-HU", {
+                  style: "currency",
+                  currency: "HUF",
+                }).format(totalAmount)}
+              </span>
             </div>
             <Button
               className="mt-2 w-full bg-green-700 text-white border-none"

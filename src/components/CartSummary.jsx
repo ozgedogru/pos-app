@@ -102,7 +102,7 @@ const CartSummary = () => {
                   }).format(subTotal)}
             </span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-red">
             <span>VAT %{taxRate * 100}</span>
             <span>
               {subTotal * taxRate === 0
