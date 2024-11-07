@@ -12,9 +12,12 @@ import {
   removeItem,
   resetCart,
 } from "../features/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { items, subTotal, taxRate, totalAmount } = useSelector(
     (state) => state.cart
   );
@@ -125,7 +128,11 @@ const CartSummary = () => {
           </div>
         </div>
         <div className="buttons flex flex-col justify-center gap-1">
-          <Button type="primary" className="bg-blue text-white font-semibold">
+          <Button
+            type="primary"
+            className="bg-blue text-white font-semibold"
+            onClick={() => navigate("/cart")}
+          >
             Complete
           </Button>
           <Button

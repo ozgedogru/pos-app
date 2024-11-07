@@ -149,6 +149,7 @@ const CartPage = () => {
               onClick={() => {
                 setIsModalOpen(true);
               }}
+              disabled={items.length === 0}
             >
               Create Order
             </Button>

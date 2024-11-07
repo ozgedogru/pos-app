@@ -1,16 +1,37 @@
-import { Button, Card, Form, Input, Modal, Select } from "antd";
-import React from "react";
+import { Button, Card, Form, Input, Modal, notification, Select } from "antd";
+import axios from "axios";
 import { useSelector } from "react-redux";
 
 const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const { Option } = Select;
-  const onFinish = (values) => {
-    console.log("values: ", values);
-  };
-
   const { items, subTotal, taxRate, totalAmount } = useSelector(
     (state) => state.cart
   );
+
+  const [form] = Form.useForm();
+
+  const onFinish = async (values) => {
+    try {
+      await axios.post("http://localhost:5000/api/invoice/create-invoice", {
+        ...values,
+        cartItems: items,
+        subTotal: subTotal.toFixed(2),
+        tax: (taxRate * subTotal).toFixed(2),
+        total: totalAmount.toFixed(2),
+      });
+      notification.success({
+        message: "Invoice Created",
+        description: "The order was created successfully!",
+      });
+      form.resetFields();
+      setIsModalOpen(false);
+    } catch (error) {
+      notification.error({
+        message: "Order Failed",
+        description: "There was an issue creating the order. Please try again.",
+      });
+    }
+  };
 
   return (
     <div>
@@ -22,17 +43,17 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
         }}
         footer={false}
       >
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="Full Name"
-            name={"fullName"}
+            name={"customerName"}
             rules={[{ required: true, message: "Please enter the full name." }]}
           >
             <Input placeholder="Enter full name"></Input>
           </Form.Item>
           <Form.Item
             label="Phone Number"
-            name={"phoneNumber"}
+            name={"customerPhone"}
             rules={[
               { required: true, message: "Please enter the phone number." },
               {
@@ -49,7 +70,7 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
           </Form.Item>
           <Form.Item
             label="Payment Method"
-            name={"paymentMethod"}
+            name={"paymentMode"}
             rules={[
               { required: true, message: "Please select a payment method." },
             ]}
