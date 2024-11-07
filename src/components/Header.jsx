@@ -9,7 +9,9 @@ import {
 } from "@ant-design/icons";
 import { Badge } from "antd";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Header = () => {
+  const { items } = useSelector((state) => state.cart);
   return (
     <div className="border-b mb-6 h-[5.5rem]">
       <header className="py-4 px-8 flex justify-between items-center md:gap-8 gap-4">
@@ -29,7 +31,7 @@ const Header = () => {
             <HomeOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Home</span>
           </Link>
-          <Badge count={5} className="md:flex hidden">
+          <Badge count={items.length} className="md:flex hidden">
             <Link
               to="/cart"
               className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
@@ -67,7 +69,7 @@ const Header = () => {
             <span className="md:text-xs text-[10px]">Logout</span>
           </Link>
         </div>
-        <Badge count={5} className="md:hidden flex">
+        <Badge count={items.length} className="md:hidden flex">
           <Link
             to="cart"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
