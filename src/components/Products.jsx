@@ -1,7 +1,9 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addItem } from "../features/cartSlice";
 
 const Products = ({ categories }) => {
   const [products, setProducts] = useState([]);
@@ -9,6 +11,7 @@ const Products = ({ categories }) => {
   const [addForm] = Form.useForm();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onAddFinish = async (values) => {
     try {
@@ -45,6 +48,7 @@ const Products = ({ categories }) => {
         <div
           key={index}
           className="product-card border rounded-md shadow-md cursor-pointer select-none"
+          onClick={() => dispatch(addItem(product))}
         >
           <div className="product-img">
             <img
