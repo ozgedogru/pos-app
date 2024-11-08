@@ -52,6 +52,7 @@ const CustomerPage = () => {
           dataSource={dataSource}
           columns={columns}
           scroll={{ x: 1000, y: 300 }}
+          pagination={false}
           bordered
         ></Table>
       </div>
