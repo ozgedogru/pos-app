@@ -107,7 +107,13 @@ const CartPage = () => {
     <div>
       <Header />
       <div className="px-6">
-        <Table dataSource={items} columns={columns} bordered></Table>
+        <Table
+          dataSource={items}
+          columns={columns}
+          scroll={{ x: 1000, y: 300 }}
+          pagination={false}
+          bordered
+        ></Table>
         <div className="cart-total flex justify-end mt-8">
           <Card className="w-72 shadow-lg">
             <div className="flex justify-between">
