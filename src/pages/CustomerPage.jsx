@@ -48,7 +48,12 @@ const CustomerPage = () => {
       <Header />
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Customers</h1>
-        <Table dataSource={dataSource} columns={columns} bordered></Table>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          scroll={{ x: 1000, y: 300 }}
+          bordered
+        ></Table>
       </div>
     </div>
   );
