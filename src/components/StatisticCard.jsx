@@ -4,37 +4,83 @@ import {
   ShoppingCartOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
-
-const statisticsData = [
-  {
-    title: "Total Customers",
-    value: 150,
-    icon: (
-      <UserSwitchOutlined className="text-5xl md:text-6xl text-orange-700" />
-    ),
-  },
-  {
-    title: "Total Revenue",
-    value: "2,500,000 HUF",
-    icon: (
-      <MoneyCollectOutlined className="text-5xl md:text-6xl text-orange-700" />
-    ),
-  },
-  {
-    title: "Total Sales",
-    value: 300,
-    icon: (
-      <ShoppingCartOutlined className="text-5xl md:text-6xl text-orange-700" />
-    ),
-  },
-  {
-    title: "Total Products",
-    value: 120,
-    icon: <AppstoreOutlined className="text-5xl md:text-6xl text-orange-700" />,
-  },
-];
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const StatisticCard = () => {
+  const [totalRevenue, setTotalRevenue] = useState();
+  const [totalSale, setTotalSale] = useState();
+  const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getInvoices = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/invoice/get-all"
+        );
+        const total = res.data
+          .reduce((total, i) => i.total + total, 0)
+          .toFixed(2);
+        setTotalRevenue(total);
+        setTotalSale(res.data.length);
+
+        const uniqueCustomers = new Set(
+          res.data.map((invoice) => invoice.customerName)
+        );
+        setCustomers(uniqueCustomers.size);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInvoices();
+  }, []);
+
+  useEffect(() => {
+    const getAllProducts = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/products/get-all"
+        );
+        setProducts(res.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllProducts();
+  }, []);
+
+  const statisticsData = [
+    {
+      title: "Total Customers",
+      value: customers,
+      icon: (
+        <UserSwitchOutlined className="text-5xl md:text-6xl text-orange-700" />
+      ),
+    },
+    {
+      title: "Total Revenue",
+      value: totalRevenue,
+      icon: (
+        <MoneyCollectOutlined className="text-5xl md:text-6xl text-orange-700" />
+      ),
+    },
+    {
+      title: "Total Sales",
+      value: totalSale,
+      icon: (
+        <ShoppingCartOutlined className="text-5xl md:text-6xl text-orange-700" />
+      ),
+    },
+    {
+      title: "Total Products",
+      value: products,
+      icon: (
+        <AppstoreOutlined className="text-5xl md:text-6xl text-orange-700" />
+      ),
+    },
+  ];
+
   return (
     <div className="statistic-cards grid grid-cols-2 md:grid-cols-4 my-6 gap-4">
       {statisticsData.map((stat, index) => (

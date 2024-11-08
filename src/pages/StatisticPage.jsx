@@ -1,5 +1,7 @@
 import Header from "../components/Header";
 import StatisticCard from "../components/StatisticCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -20,12 +22,38 @@ const StatisticPage = () => {
     { name: "Employee C", sales: 300 },
     { name: "Employee D", sales: 200 },
   ];
-  const areaChartData = [
-    { name: "Week 1", sales: 2400 },
-    { name: "Week 2", sales: 810 },
-    { name: "Week 3", sales: 2290 },
-    { name: "Week 4", sales: 2000 },
-  ];
+
+  const [salesTrend, setSalesTrend] = useState([]);
+  useEffect(() => {
+    const getInvoices = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/invoice/get-all"
+        );
+
+        const trendData = res.data.reduce((acc, invoice) => {
+          const date = new Date(invoice.createdAt).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+          const found = acc.find((item) => item.date === date);
+          if (found) {
+            found.sales += 1;
+            found.total += invoice.total;
+          } else {
+            acc.push({ date, sales: 1, total: invoice.total });
+          }
+          return acc;
+        }, []);
+
+        setSalesTrend(trendData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInvoices();
+  }, []);
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   return (
@@ -45,11 +73,11 @@ const StatisticPage = () => {
             <h3 className="text-xl text-center my-4">Sales Trend Over Time</h3>
             <ResponsiveContainer width="90%" height={240}>
               <AreaChart
-                data={areaChartData}
+                data={salesTrend}
                 margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
                 <Area
@@ -57,6 +85,13 @@ const StatisticPage = () => {
                   dataKey="sales"
                   stroke="#8884d8"
                   fill="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total"
+                  stroke="#82ca9d"
+                  fill="#82ca9d"
                 />
               </AreaChart>
             </ResponsiveContainer>
