@@ -1,40 +1,25 @@
 import { Table } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import axios from "axios";
 
 const CustomerPage = () => {
-  const dataSource = [
-    {
-      key: "1",
-      customerName: "John Doe",
-      phoneNumber: "+1 (555) 123-4567",
-      transactionDate: "2024-10-28",
-    },
-    {
-      key: "2",
-      customerName: "Jane Smith",
-      phoneNumber: "+1 (555) 987-6543",
-      transactionDate: "2024-10-27",
-    },
-    {
-      key: "3",
-      customerName: "Michael Johnson",
-      phoneNumber: "+1 (555) 234-5678",
-      transactionDate: "2024-10-26",
-    },
-    {
-      key: "4",
-      customerName: "Emily Davis",
-      phoneNumber: "+1 (555) 876-5432",
-      transactionDate: "2024-10-25",
-    },
-    {
-      key: "5",
-      customerName: "Chris Brown",
-      phoneNumber: "+1 (555) 345-6789",
-      transactionDate: "2024-10-24",
-    },
-  ];
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    const getInvoices = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/invoice/get-all"
+        );
+        setDataSource(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInvoices();
+  }, []);
+
   const columns = [
     {
       title: "Customer Name",
@@ -43,12 +28,15 @@ const CustomerPage = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "customerPhone",
+      key: "customerPhone",
     },
     {
       title: "Transaction Date",
-      dataIndex: "transactionDate",
+      dataIndex: "createdAt",
+      render: (text) => {
+        return <span>{text.substring(0, 10)}</span>;
+      },
       defaultSortOrder: "descend",
       sorter: (a, b) =>
         new Date(a.transactionDate) - new Date(b.transactionDate),
