@@ -1,7 +1,27 @@
-import { Button, Carousel, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Carousel, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
+    try {
+      const { username, email, password } = values;
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        username,
+        email,
+        password,
+      });
+      console.log(res.data);
+      if (res.status === 200) {
+        message.success("Registration successful! Please log in.");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="h-screen flex">
       <div className="flex flex-col justify-center w-full md:w-1/3 min-h-1/2 px-10 xl:px-20 bg-beige">
@@ -9,6 +29,7 @@ const RegisterPage = () => {
         <Form
           name="registration"
           layout="vertical"
+          onFinish={onFinish}
           initialValues={{ remember: true }}
         >
           <Form.Item

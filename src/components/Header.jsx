@@ -7,11 +7,34 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Badge } from "antd";
-import { Link } from "react-router-dom";
+import { Badge, message, Modal } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Header = () => {
   const { items } = useSelector((state) => state.cart);
+
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.removeItem("user");
+    message.success("You have successfully logged out!");
+    navigate("/login");
+  };
+
+  const showConfirm = () => {
+    Modal.confirm({
+      title: "Are you sure you want to log out?",
+      content: "You will be logged out of your account.",
+      okText: "Yes",
+      cancelText: "No",
+      onOk() {
+        logOut();
+      },
+      onCancel() {
+        message.info("Logout cancelled.");
+      },
+    });
+  };
   return (
     <div className="border-b mb-6 h-[5.5rem]">
       <header className="py-4 px-8 flex justify-between items-center md:gap-8 gap-4">
@@ -61,13 +84,12 @@ const Header = () => {
             <BarChartOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Statistics</span>
           </Link>
-          <Link
-            to="/"
-            className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
-          >
-            <LogoutOutlined className=" md:text-2xl text-xl" />
-            <span className="md:text-xs text-[10px]">Logout</span>
-          </Link>
+          <div onClick={showConfirm}>
+            <Link className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1">
+              <LogoutOutlined className=" md:text-2xl text-xl" />
+              <span className="md:text-xs text-[10px]">Logout</span>
+            </Link>{" "}
+          </div>
         </div>
         <Badge count={items.length} className="md:hidden flex">
           <Link

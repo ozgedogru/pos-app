@@ -1,7 +1,37 @@
-import { Button, Carousel, Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Carousel, Checkbox, Form, Input, message } from "antd";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
+    try {
+      const { email, password } = values;
+
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+
+      if (res.status === 200) {
+        const { user } = res.data;
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        message.success("Welcome back!");
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        message.error(error.response.data.message);
+      } else {
+        message.error("An unexpected error occurred. Please try again.");
+      }
+      console.error("Login error:", error);
+    }
+  };
+
   return (
     <div className="h-screen flex">
       <div className="flex flex-col justify-center w-full md:w-1/3 min-h-1/2 px-10 xl:px-20 bg-beige">
@@ -9,7 +39,8 @@ const LoginPage = () => {
         <Form
           name="registration"
           layout="vertical"
-          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          initialValues={{ remember: false }}
         >
           <Form.Item
             label="Email"

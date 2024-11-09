@@ -7,17 +7,60 @@ import StatisticPage from "./StatisticPage";
 import RegisterPage from "./RegisterPage";
 import LoginPage from "./LoginPage";
 import ProductPage from "./ProductPage";
+import ProtectedPage from "./ProtectedPage";
 
 const PageContent = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/invoice" element={<InvoicePage />} />
-        <Route path="/customers" element={<CustomerPage />} />
-        <Route path="/statistics" element={<StatisticPage />} />
-        <Route path="/products" element={<ProductPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedPage>
+              <HomePage />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedPage>
+              <CartPage />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/invoice"
+          element={
+            <ProtectedPage>
+              <InvoicePage />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/customers"
+          element={
+            <ProtectedPage>
+              <CustomerPage />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedPage>
+              <StatisticPage />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedPage>
+              <ProductPage />
+            </ProtectedPage>
+          }
+        />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
