@@ -26,7 +26,7 @@ const StatisticCard = () => {
         setTotalSale(res.data.length);
 
         const uniqueCustomers = new Set(
-          res.data.map((invoice) => invoice.customerName)
+          res.data.map((invoice) => invoice.customerPhone)
         );
         setCustomers(uniqueCustomers.size);
       } catch (error) {
