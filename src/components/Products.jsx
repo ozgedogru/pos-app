@@ -43,7 +43,7 @@ const Products = ({ selectedCategory, searchTerm }) => {
 
       const matchesSearchTerm = product.title
         .toLowerCase()
-        .startsWith(lowercasedSearchTerm);
+        .includes(lowercasedSearchTerm);
 
       return matchesSearchTerm;
     });
