@@ -1,8 +1,11 @@
 import { Button, Form, Input, message, Modal, Table } from "antd";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Categories = ({ categories }) => {
+const Categories = () => {
+  const categories = useSelector((state) => state.categories.categories);
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingRow, setEditingRow] = useState({});

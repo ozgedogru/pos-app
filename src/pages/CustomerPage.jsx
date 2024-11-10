@@ -1,10 +1,15 @@
-import { Table } from "antd";
-import React, { useEffect, useState } from "react";
+import { Table, Tooltip } from "antd";
+import React, { useEffect, useMemo } from "react";
 import Header from "../components/Header";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setInvoices } from "../features/invoiceSlice";
+import { StarOutlined } from "@ant-design/icons";
 
 const CustomerPage = () => {
-  const [dataSource, setDataSource] = useState([]);
+  const { invoices } = useSelector((state) => state.invoices);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getInvoices = async () => {
@@ -12,13 +17,47 @@ const CustomerPage = () => {
         const res = await axios.get(
           "http://localhost:5000/api/invoice/get-all"
         );
-        setDataSource(res.data);
+        dispatch(setInvoices(res.data));
       } catch (error) {
         console.log(error);
       }
     };
     getInvoices();
-  }, []);
+  }, [dispatch]);
+
+  const customerData = useMemo(() => {
+    const customerMap = {};
+
+    invoices.forEach((invoice) => {
+      const { customerName, customerPhone, createdAt } = invoice;
+
+      if (!customerMap[customerPhone]) {
+        customerMap[customerPhone] = {
+          customerName,
+          customerPhone,
+          lastTransactionDate: createdAt,
+          invoiceCount: 1,
+        };
+      } else {
+        customerMap[customerPhone].invoiceCount += 1;
+        if (
+          new Date(createdAt) >
+          new Date(customerMap[customerPhone].lastTransactionDate)
+        ) {
+          customerMap[customerPhone].lastTransactionDate = createdAt;
+        }
+      }
+    });
+
+    return Object.values(customerMap);
+  }, [invoices]);
+
+  const maxInvoiceCount = useMemo(() => {
+    return Math.max(
+      ...customerData.map((customer) => customer.invoiceCount),
+      0
+    );
+  }, [customerData]);
 
   const columns = [
     {
@@ -32,14 +71,25 @@ const CustomerPage = () => {
       key: "customerPhone",
     },
     {
-      title: "Transaction Date",
-      dataIndex: "createdAt",
-      render: (text) => {
-        return <span>{text.substring(0, 10)}</span>;
-      },
-      defaultSortOrder: "descend",
-      sorter: (a, b) =>
-        new Date(a.transactionDate) - new Date(b.transactionDate),
+      title: "Last Transaction Date",
+      dataIndex: "lastTransactionDate",
+      render: (text) => <span>{text.substring(0, 10)}</span>,
+      key: "lastTransactionDate",
+    },
+    {
+      title: "Total Invoice Count",
+      dataIndex: "invoiceCount",
+      key: "invoiceCount",
+      render: (count) => (
+        <span>
+          {count}
+          {count === maxInvoiceCount && (
+            <Tooltip title="Special Customer">
+              <StarOutlined style={{ color: "#faad14", marginLeft: 8 }} />
+            </Tooltip>
+          )}
+        </span>
+      ),
     },
   ];
 
@@ -49,7 +99,7 @@ const CustomerPage = () => {
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Customers</h1>
         <Table
-          dataSource={dataSource}
+          dataSource={customerData}
           columns={columns}
           scroll={{ x: 1000, y: 300 }}
           pagination={false}

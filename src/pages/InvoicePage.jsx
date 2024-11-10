@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import PrintInvoice from "../components/PrintInvoice";
 import Header from "../components/Header";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setInvoices } from "../features/invoiceSlice";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
   const [customer, setCustomer] = useState({});
 
+  const dispatch = useDispatch();
+
+  const { invoices } = useSelector((state) => state.invoices);
   const columns = [
     {
       title: "Customer Name",
@@ -62,13 +66,13 @@ const InvoicePage = () => {
         const res = await axios.get(
           "http://localhost:5000/api/invoice/get-all"
         );
-        setDataSource(res.data);
+        dispatch(setInvoices(res.data));
       } catch (error) {
         console.log(error);
       }
     };
     getInvoices();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -76,7 +80,7 @@ const InvoicePage = () => {
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Invoices</h1>
         <Table
-          dataSource={dataSource}
+          dataSource={invoices}
           columns={columns}
           scroll={{ x: 1000, y: 300 }}
           pagination={false}

@@ -1,17 +1,34 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addItem } from "../features/cartSlice";
+import { setProducts } from "../features/productsSlice";
 
-const Products = ({ categories }) => {
-  const [products, setProducts] = useState([]);
+const Products = () => {
+  const { categories } = useSelector((state) => state.categories);
+  const { products } = useSelector((state) => state.products);
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [addForm] = Form.useForm();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getAllProducts = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/products/get-all"
+        );
+        dispatch(setProducts(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllProducts();
+  }, [dispatch, products]);
 
   const onAddFinish = async (values) => {
     try {
@@ -27,20 +44,6 @@ const Products = ({ categories }) => {
       message.error("Failed to add category. Please try again.");
     }
   };
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/get-all"
-        );
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
-  }, [products]);
 
   return (
     <div className="grid grid-cols-card gap-4">
@@ -58,7 +61,7 @@ const Products = ({ categories }) => {
             ></img>
           </div>
           <div className="product-info flex flex-col items-center py-1">
-            <span>{product.name}</span>
+            <span>{product.title}</span>
             <span>{product.price} Ft</span>
           </div>
         </div>
