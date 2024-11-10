@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { addItem } from "../features/cartSlice";
 import { setProducts } from "../features/productsSlice";
 
-const Products = () => {
+const Products = ({ selectedCategory }) => {
   const { categories } = useSelector((state) => state.categories);
   const { products } = useSelector((state) => state.products);
 
@@ -30,6 +30,11 @@ const Products = () => {
     getAllProducts();
   }, [dispatch, products]);
 
+  const filteredProducts =
+    selectedCategory === "All Products" || !selectedCategory
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
+
   const onAddFinish = async (values) => {
     try {
       const res = await axios.post(
@@ -47,7 +52,7 @@ const Products = () => {
 
   return (
     <div className="grid grid-cols-card gap-4">
-      {products.map((product, index) => (
+      {filteredProducts.map((product, index) => (
         <div
           key={index}
           className="product-card border rounded-md shadow-md cursor-pointer select-none"

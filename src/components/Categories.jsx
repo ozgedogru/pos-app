@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const Categories = () => {
+const Categories = ({ onSelectCategory, selectedCategory }) => {
   const categories = useSelector((state) => state.categories.categories);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -119,7 +119,13 @@ const Categories = () => {
     <div>
       <ul className="flex md:flex-col items-center md:font-semibold md:text-lg text-sm gap-2">
         {categories.map((category, index) => (
-          <li key={index} className="category-item">
+          <li
+            onClick={() => onSelectCategory(category.title)}
+            key={index}
+            className={`category-item ${
+              selectedCategory === category.title ? "!bg-orange-950" : ""
+            }`}
+          >
             <span>{category.title}</span>
           </li>
         ))}
