@@ -41,7 +41,13 @@ const InvoicePage = () => {
       title: "Total Price",
       dataIndex: "total",
       key: "total",
-      render: (totalPrice) => `${totalPrice} HUF`,
+      render: (totalPrice) => {
+        const formattedPrice = new Intl.NumberFormat("hu-HU", {
+          style: "currency",
+          currency: "HUF",
+        }).format(totalPrice);
+        return formattedPrice;
+      },
     },
     {
       title: "Action",
