@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setInvoices } from "../features/invoiceSlice";
-import { StarOutlined } from "@ant-design/icons";
+import { StarFilled } from "@ant-design/icons";
 
 const CustomerPage = () => {
   const { invoices } = useSelector((state) => state.invoices);
@@ -85,7 +85,7 @@ const CustomerPage = () => {
           {count}
           {count === maxInvoiceCount && (
             <Tooltip title="Special Customer">
-              <StarOutlined style={{ color: "#faad14", marginLeft: 8 }} />
+              <StarFilled style={{ color: "#faad14", marginLeft: 8 }} />
             </Tooltip>
           )}
         </span>

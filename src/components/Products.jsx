@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { addItem } from "../features/cartSlice";
 import { setProducts } from "../features/productsSlice";
 
-const Products = ({ selectedCategory }) => {
+const Products = ({ selectedCategory, searchTerm }) => {
   const { categories } = useSelector((state) => state.categories);
   const { products } = useSelector((state) => state.products);
 
@@ -30,10 +30,23 @@ const Products = ({ selectedCategory }) => {
     getAllProducts();
   }, [dispatch, products]);
 
-  const filteredProducts =
-    selectedCategory === "All Products" || !selectedCategory
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesCategory =
+        selectedCategory === "All Products" ||
+        product.category === selectedCategory;
+
+      return matchesCategory;
+    })
+    .filter((product) => {
+      const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+      const matchesSearchTerm = product.title
+        .toLowerCase()
+        .startsWith(lowercasedSearchTerm);
+
+      return matchesSearchTerm;
+    });
 
   const onAddFinish = async (values) => {
     try {

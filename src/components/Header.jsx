@@ -10,10 +10,14 @@ import {
 import { Badge, message, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-const Header = () => {
+const Header = ({ setSearchTerm }) => {
   const { items } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   const logOut = () => {
     localStorage.removeItem("user");
@@ -44,7 +48,12 @@ const Header = () => {
           </Link>
         </div>
         <div className="header-search flex-1 max-w-[800px]">
-          <Search placeholder="search..." loading enterButton />
+          <Search
+            onChange={handleSearch}
+            placeholder="search..."
+            loading
+            enterButton
+          />
         </div>
         <div className="menu-links flex md:justify-center justify-evenly items-center md:gap-8 gap-2 md:static fixed z-50 bottom-0 md:w-auto w-screen md:bg-transparent bg-white left-0 md:border-t-0 border-t md:px-0 px-4 py-1">
           <Link
