@@ -113,6 +113,7 @@ const CartPage = () => {
           scroll={{ x: 1000, y: 300 }}
           pagination={false}
           bordered
+          rowKey="_id"
         ></Table>
         <div className="cart-total flex justify-end mt-8">
           <Card className="w-72 shadow-lg">

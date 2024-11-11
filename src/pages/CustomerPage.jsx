@@ -104,6 +104,7 @@ const CustomerPage = () => {
           scroll={{ x: 1000, y: 300 }}
           pagination={false}
           bordered
+          rowKey="customerPhone"
         ></Table>
       </div>
     </div>

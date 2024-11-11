@@ -93,6 +93,7 @@ const InvoicePage = () => {
           scroll={{ x: 1000, y: 300 }}
           pagination={false}
           bordered
+          rowKey="_id"
         ></Table>
         <div className="cart-total flex justify-end mt-8">
           <PrintInvoice
