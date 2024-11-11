@@ -5,11 +5,17 @@ import CartSummary from "../components/CartSummary";
 import Header from "../components/Header";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategories } from "../features/categoriesSlice";
+import { setCategories, setCategoryLoading } from "../features/categoriesSlice";
+import { setProductLoading, setProducts } from "../features/productsSlice";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { setInvoiceLoading, setInvoices } from "../features/invoiceSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categories);
+
+  const { loading: categoryLoading } = useSelector((state) => state.categories);
+  const { loading: productLoading } = useSelector((state) => state.products);
 
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +26,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const getCategories = async () => {
+      dispatch(setCategoryLoading());
       try {
         const res = await axios.get(
           "http://localhost:5000/api/categories/get-all"
@@ -30,8 +37,47 @@ const HomePage = () => {
       }
     };
 
+    const getAllProducts = async () => {
+      dispatch(setProductLoading());
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/products/get-all"
+        );
+        dispatch(setProducts(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getInvoices = async () => {
+      dispatch(setInvoiceLoading());
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/invoice/get-all"
+        );
+        dispatch(setInvoices(res.data));
+      } catch (error) {
+        console.log(error);
+        dispatch(setInvoiceLoading());
+      }
+    };
+
+    getInvoices();
+    getAllProducts();
     getCategories();
-  }, [categories, dispatch]);
+  }, [dispatch]);
+
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
+  );
+
+  if (categoryLoading || productLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin indicator={antIcon} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">

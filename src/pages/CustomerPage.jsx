@@ -1,29 +1,12 @@
-import { Table, Tooltip } from "antd";
-import React, { useEffect, useMemo } from "react";
+import { Spin, Table, Tooltip } from "antd";
+import React, { useMemo } from "react";
 import Header from "../components/Header";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setInvoices } from "../features/invoiceSlice";
+import { useSelector } from "react-redux";
 import { StarFilled } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CustomerPage = () => {
-  const { invoices } = useSelector((state) => state.invoices);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const getInvoices = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/invoice/get-all"
-        );
-        dispatch(setInvoices(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getInvoices();
-  }, [dispatch]);
+  const { invoices, loading } = useSelector((state) => state.invoices);
 
   const customerData = useMemo(() => {
     const customerMap = {};
@@ -93,19 +76,29 @@ const CustomerPage = () => {
     },
   ];
 
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
+  );
+
   return (
     <div>
       <Header />
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Customers</h1>
-        <Table
-          dataSource={customerData}
-          columns={columns}
-          scroll={{ x: 1000, y: 300 }}
-          pagination={false}
-          bordered
-          rowKey="customerPhone"
-        ></Table>
+        {loading ? (
+          <div className="flex justify-center items-center h-[300px]">
+            <Spin indicator={antIcon} />
+          </div>
+        ) : (
+          <Table
+            dataSource={customerData}
+            columns={columns}
+            scroll={{ x: 1000, y: 300 }}
+            pagination={false}
+            bordered
+            rowKey="customerPhone"
+          ></Table>
+        )}
       </div>
     </div>
   );

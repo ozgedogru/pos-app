@@ -1,10 +1,9 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addItem } from "../features/cartSlice";
-import { setProducts } from "../features/productsSlice";
 
 const Products = ({ selectedCategory, searchTerm }) => {
   const { categories } = useSelector((state) => state.categories);
@@ -15,20 +14,6 @@ const Products = ({ selectedCategory, searchTerm }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/get-all"
-        );
-        dispatch(setProducts(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
-  }, [dispatch, products]);
 
   const filteredProducts = products
     .filter((product) => {

@@ -1,18 +1,15 @@
-import { Button, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Spin, Table } from "antd";
+import { useState } from "react";
 import PrintInvoice from "../components/PrintInvoice";
 import Header from "../components/Header";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setInvoices } from "../features/invoiceSlice";
+import { useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customer, setCustomer] = useState({});
 
-  const dispatch = useDispatch();
-
-  const { invoices } = useSelector((state) => state.invoices);
+  const { invoices, loading } = useSelector((state) => state.invoices);
   const columns = [
     {
       title: "Customer Name",
@@ -68,33 +65,29 @@ const InvoicePage = () => {
     },
   ];
 
-  useEffect(() => {
-    const getInvoices = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/invoice/get-all"
-        );
-        dispatch(setInvoices(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getInvoices();
-  }, [dispatch]);
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
+  );
 
   return (
     <div>
       <Header />
       <div className="px-6">
         <h1 className="text-3xl font-bold text-center mb-4">Invoices</h1>
-        <Table
-          dataSource={invoices}
-          columns={columns}
-          scroll={{ x: 1000, y: 300 }}
-          pagination={false}
-          bordered
-          rowKey="_id"
-        ></Table>
+        {loading ? (
+          <div className="flex justify-center items-center h-[300px]">
+            <Spin indicator={antIcon} />
+          </div>
+        ) : (
+          <Table
+            dataSource={invoices}
+            columns={columns}
+            scroll={{ x: 1000, y: 300 }}
+            pagination={false}
+            bordered
+            rowKey="_id"
+          ></Table>
+        )}
         <div className="cart-total flex justify-end mt-8">
           <PrintInvoice
             isModalOpen={isModalOpen}

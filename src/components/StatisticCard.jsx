@@ -4,51 +4,13 @@ import {
   ShoppingCartOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const StatisticCard = () => {
-  const [totalRevenue, setTotalRevenue] = useState();
-  const [totalSale, setTotalSale] = useState();
-  const [customers, setCustomers] = useState([]);
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const getInvoices = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/invoice/get-all"
-        );
-        const total = res.data
-          .reduce((total, i) => i.total + total, 0)
-          .toFixed(2);
-        setTotalRevenue(total);
-        setTotalSale(res.data.length);
-
-        const uniqueCustomers = new Set(
-          res.data.map((invoice) => invoice.customerPhone)
-        );
-        setCustomers(uniqueCustomers.size);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getInvoices();
-  }, []);
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/get-all"
-        );
-        setProducts(res.data.length);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
-  }, []);
+  const { totalRevenue, totalSale, customers } = useSelector(
+    (state) => state.invoices.statistics
+  );
+  const { products } = useSelector((state) => state.products);
 
   const statisticsData = [
     {
@@ -74,7 +36,7 @@ const StatisticCard = () => {
     },
     {
       title: "Total Products",
-      value: products,
+      value: products?.length,
       icon: (
         <AppstoreOutlined className="text-5xl md:text-6xl text-orange-700" />
       ),
