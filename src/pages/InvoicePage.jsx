@@ -31,6 +31,8 @@ const InvoicePage = () => {
       render: (text) => {
         return <span>{text.substring(0, 10)}</span>;
       },
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      defaultSortOrder: "descend",
     },
     {
       title: "Payment Method",
