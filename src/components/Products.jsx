@@ -68,7 +68,14 @@ const Products = ({ selectedCategory, searchTerm }) => {
           </div>
           <div className="product-info flex flex-col items-center py-1">
             <span>{product.title}</span>
-            <span>{product.price} Ft</span>
+            <span>
+              {new Intl.NumberFormat("hu-HU", {
+                style: "currency",
+                currency: "HUF",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+              }).format(product.price)}
+            </span>{" "}
           </div>
         </div>
       ))}
@@ -135,7 +142,12 @@ const Products = ({ selectedCategory, searchTerm }) => {
               },
             ]}
           >
-            <Input placeholder="Enter product price" />
+            <Input
+              placeholder="Enter product price"
+              type="number"
+              prefix="Ft"
+              min={0}
+            />
           </Form.Item>
           <Form.Item
             label="Product Category"

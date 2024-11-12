@@ -13,6 +13,12 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
       day: "numeric",
     });
   };
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("hu-HU", {
+      style: "currency",
+      currency: "HUF",
+    }).format(amount);
+  };
 
   return (
     <div>
@@ -108,19 +114,19 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
                           {product.title}
                           <div className="md:hidden">
                             <span className="text-[0.7rem]">
-                              Unit Price: {product.price} HUF x{" "}
+                              Unit Price: {formatCurrency(product.price)} x{" "}
                               {product.quantity}
                             </span>
                           </div>
                         </td>
                         <td className="sm:flex-1 md:table-cell hidden">
-                          {product.price}
+                          {formatCurrency(product.price)}
                         </td>
                         <td className="sm:flex-1 md:table-cell hidden">
                           {product.quantity}
                         </td>
                         <td className="text-right pr-4">
-                          {product.totalPrice} HUF
+                          {formatCurrency(product.totalPrice)}
                         </td>
                       </tr>
                     ))}
@@ -138,7 +144,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
                         colSpan="4"
                         className="text-right font-normal pt-6 pr-4"
                       >
-                        {customer.subTotal} HUF
+                        {formatCurrency(customer.subTotal)}
                       </th>
                     </tr>
                     <tr>
@@ -153,7 +159,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
                         colSpan="4"
                         className="text-right font-normal text-red pt-2 pr-4"
                       >
-                        {customer.tax} HUF
+                        {formatCurrency(customer.tax)}
                       </th>
                     </tr>
                     <tr>
@@ -165,7 +171,7 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
                         Total
                       </th>
                       <th colSpan="4" className="text-right pt-2 pr-4">
-                        {customer.total} HUF
+                        {formatCurrency(customer.total)}
                       </th>
                     </tr>
                   </tfoot>
