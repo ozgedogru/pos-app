@@ -2,6 +2,7 @@ import { Button, Card, Form, Input, Modal, notification, Select } from "antd";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../features/cartSlice";
+import { fetchInvoices } from "../features/invoiceSlice";
 
 const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
   const { Option } = Select;
@@ -25,7 +26,10 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
         message: "Invoice Created",
         description: "The order was created successfully!",
       });
+
       dispatch(resetCart());
+      dispatch(fetchInvoices());
+
       form.resetFields();
       setIsModalOpen(false);
     } catch (error) {

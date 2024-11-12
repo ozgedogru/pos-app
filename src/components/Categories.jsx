@@ -1,9 +1,11 @@
 import { Button, Form, Input, message, Modal, Table } from "antd";
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../features/categoriesSlice";
 
 const Categories = ({ onSelectCategory, selectedCategory }) => {
+  const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -68,6 +70,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
         "http://localhost:5000/api/categories/add-category",
         values
       );
+      dispatch(fetchCategories());
       message.success(res.data);
       addForm.resetFields();
       setIsAddModalOpen(false);
@@ -83,6 +86,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
         "http://localhost:5000/api/categories/update-category",
         { ...values, categoryId: editingRow._id }
       );
+      dispatch(fetchCategories());
       message.success(res.data);
       editForm.resetFields();
       setIsEditModalOpen(false);
@@ -97,6 +101,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
         "http://localhost:5000/api/categories/delete-category",
         { data: { categoryId: id } }
       );
+      dispatch(fetchCategories());
       message.success(res.data);
       setIsEditModalOpen(false);
     } catch (error) {

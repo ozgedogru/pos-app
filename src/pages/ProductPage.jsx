@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import { Button, Form, Input, message, Modal, Select, Table } from "antd";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../features/productsSlice";
 
 const ProductPage = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+
+  const { categories } = useSelector((state) => state.categories);
+  const { products } = useSelector((state) => state.products);
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState({});
 
@@ -78,6 +83,7 @@ const ProductPage = () => {
         "http://localhost:5000/api/products/update-product",
         { ...values, productId: editingProduct._id }
       );
+      dispatch(fetchProducts());
       message.success(res.data);
       editForm.resetFields();
       setIsEditModalOpen(false);
@@ -91,6 +97,7 @@ const ProductPage = () => {
       await axios.delete("http://localhost:5000/api/products/delete-product", {
         data: { productId: id },
       });
+      dispatch(fetchProducts());
       message.success("Product deleted successfully.");
     } catch (error) {
       console.error(error);
@@ -107,34 +114,6 @@ const ProductPage = () => {
       onOk: () => deleteProduct(id),
     });
   };
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/get-all"
-        );
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
-  }, [products]);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/categories/get-all"
-        );
-        setCategories(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCategories();
-  }, [categories]);
 
   return (
     <div>

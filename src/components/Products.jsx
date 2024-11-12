@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addItem } from "../features/cartSlice";
+import { fetchProducts } from "../features/productsSlice";
 
 const Products = ({ selectedCategory, searchTerm }) => {
   const { categories } = useSelector((state) => state.categories);
@@ -39,6 +40,8 @@ const Products = ({ selectedCategory, searchTerm }) => {
         "http://localhost:5000/api/products/add-product",
         values
       );
+
+      dispatch(fetchProducts());
       message.success(res.data);
       addForm.resetFields();
       setIsAddModalOpen(false);
