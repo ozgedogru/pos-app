@@ -21,6 +21,8 @@ const Header = ({ setSearchTerm }) => {
 
   const logOut = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+
     message.success("You have successfully logged out!");
     navigate("/login");
   };
