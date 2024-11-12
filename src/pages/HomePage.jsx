@@ -3,13 +3,12 @@ import Categories from "../components/Categories";
 import Products from "../components/Products";
 import CartSummary from "../components/CartSummary";
 import Header from "../components/Header";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategories, setCategoryLoading } from "../features/categoriesSlice";
-import { setProductLoading, setProducts } from "../features/productsSlice";
+import { fetchCategories } from "../features/categoriesSlice";
+import { fetchProducts } from "../features/productsSlice";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { setInvoiceLoading, setInvoices } from "../features/invoiceSlice";
+import { fetchInvoices } from "../features/invoiceSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -25,46 +24,9 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const getCategories = async () => {
-      dispatch(setCategoryLoading());
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/categories/get-all"
-        );
-        dispatch(setCategories(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getAllProducts = async () => {
-      dispatch(setProductLoading());
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products/get-all"
-        );
-        dispatch(setProducts(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getInvoices = async () => {
-      dispatch(setInvoiceLoading());
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/invoice/get-all"
-        );
-        dispatch(setInvoices(res.data));
-      } catch (error) {
-        console.log(error);
-        dispatch(setInvoiceLoading());
-      }
-    };
-
-    getInvoices();
-    getAllProducts();
-    getCategories();
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
+    dispatch(fetchInvoices());
   }, [dispatch]);
 
   const antIcon = (

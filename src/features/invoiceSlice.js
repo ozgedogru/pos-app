@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   invoices: [],
@@ -9,6 +10,16 @@ const initialState = {
     customers: 0,
   },
 };
+
+export const fetchInvoices = createAsyncThunk(
+  "invoices/fetchInvoices",
+  async () => {
+    const response = await axios.get(
+      "http://localhost:5000/api/invoice/get-all"
+    );
+    return response.data;
+  }
+);
 
 const invoiceSlice = createSlice({
   name: "invoices",
@@ -33,6 +44,30 @@ const invoiceSlice = createSlice({
     setInvoiceLoading: (state) => {
       state.loading = true;
     },
+  },
+  extraReducers: (builder) => {
+    // Faturalar başarıyla çekildiyse
+    builder.addCase(fetchInvoices.fulfilled, (state, action) => {
+      state.loading = false;
+      state.invoices = action.payload;
+
+      const totalRevenue = state.invoices
+        .reduce((total, i) => i.total + total, 0)
+        .toFixed(2);
+      const totalSale = state.invoices.length;
+
+      const uniqueCustomers = new Set(
+        state.invoices.map((invoice) => invoice.customerPhone)
+      );
+      const customers = uniqueCustomers.size;
+
+      state.statistics = { totalRevenue, totalSale, customers };
+    });
+
+    // Faturalar çekilemediğinde
+    builder.addCase(fetchInvoices.rejected, (state) => {
+      state.loading = false;
+    });
   },
 });
 
