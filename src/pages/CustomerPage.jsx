@@ -1,9 +1,10 @@
 import { Spin, Table, Tooltip } from "antd";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StarFilled } from "@ant-design/icons";
 import { LoadingOutlined } from "@ant-design/icons";
+import { fetchInvoices } from "../features/invoiceSlice";
 
 const CustomerPage = () => {
   const { invoices, loading } = useSelector((state) => state.invoices);
@@ -79,6 +80,13 @@ const CustomerPage = () => {
   const antIcon = (
     <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
   );
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!invoices || invoices.length === 0) {
+      dispatch(fetchInvoices());
+    }
+  }, [dispatch, invoices]);
 
   return (
     <div>

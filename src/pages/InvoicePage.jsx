@@ -1,9 +1,10 @@
 import { Button, Spin, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrintInvoice from "../components/PrintInvoice";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
+import { fetchInvoices } from "../features/invoiceSlice";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,6 +69,13 @@ const InvoicePage = () => {
   const antIcon = (
     <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
   );
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!invoices || invoices.length === 0) {
+      dispatch(fetchInvoices());
+    }
+  }, [dispatch, invoices]);
 
   return (
     <div>

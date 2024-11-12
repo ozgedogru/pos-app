@@ -14,13 +14,11 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { setInvoiceLoading } from "../features/invoiceSlice";
+import { fetchInvoices } from "../features/invoiceSlice";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 
 const StatisticPage = () => {
-  const dispatch = useDispatch();
-
   const { invoices, loading } = useSelector((state) => state.invoices);
 
   const salesTrend =
@@ -54,9 +52,10 @@ const StatisticPage = () => {
     <LoadingOutlined style={{ fontSize: 48, color: "black" }} spin />
   );
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (invoices.length === 0) {
-      dispatch(setInvoiceLoading());
+    if (!invoices || invoices.length === 0) {
+      dispatch(fetchInvoices());
     }
   }, [dispatch, invoices]);
 
