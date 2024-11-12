@@ -37,7 +37,7 @@ const Products = ({ selectedCategory, searchTerm }) => {
   const onAddFinish = async (values) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/products/add-product",
+        process.env.REACT_APP_SERVER_URL + "/api/products/add-product",
         values
       );
 

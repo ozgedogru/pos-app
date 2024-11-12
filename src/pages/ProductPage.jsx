@@ -80,7 +80,7 @@ const ProductPage = () => {
   const onEditFinish = async (values) => {
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/products/update-product",
+        process.env.REACT_APP_SERVER_URL + "/api/products/update-product",
         { ...values, productId: editingProduct._id }
       );
       dispatch(fetchProducts());
@@ -94,9 +94,12 @@ const ProductPage = () => {
 
   const deleteProduct = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/api/products/delete-product", {
-        data: { productId: id },
-      });
+      await axios.delete(
+        process.env.REACT_APP_SERVER_URL + "/api/products/delete-product",
+        {
+          data: { productId: id },
+        }
+      );
       dispatch(fetchProducts());
       message.success("Product deleted successfully.");
     } catch (error) {

@@ -15,7 +15,7 @@ export const fetchInvoices = createAsyncThunk(
   "invoices/fetchInvoices",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/invoice/get-all"
+      process.env.REACT_APP_SERVER_URL + "/api/invoice/get-all"
     );
     return response.data;
   }
@@ -46,7 +46,6 @@ const invoiceSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Faturalar başarıyla çekildiyse
     builder.addCase(fetchInvoices.fulfilled, (state, action) => {
       state.loading = false;
       state.invoices = action.payload;
@@ -64,7 +63,6 @@ const invoiceSlice = createSlice({
       state.statistics = { totalRevenue, totalSale, customers };
     });
 
-    // Faturalar çekilemediğinde
     builder.addCase(fetchInvoices.rejected, (state) => {
       state.loading = false;
     });

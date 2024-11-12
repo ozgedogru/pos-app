@@ -67,7 +67,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
   const onAddFinish = async (values) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/categories/add-category",
+        process.env.REACT_APP_SERVER_URL + "/api/categories/add-category",
         values
       );
       dispatch(fetchCategories());
@@ -83,7 +83,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
   const onEditFinish = async (values) => {
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/categories/update-category",
+        process.env.REACT_APP_SERVER_URL + "/api/categories/update-category",
         { ...values, categoryId: editingRow._id }
       );
       dispatch(fetchCategories());
@@ -98,7 +98,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
   const deleteCategory = async (id) => {
     try {
       const res = await axios.delete(
-        "http://localhost:5000/api/categories/delete-category",
+        process.env.REACT_APP_SERVER_URL + "/api/categories/delete-category",
         { data: { categoryId: id } }
       );
       dispatch(fetchCategories());

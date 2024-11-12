@@ -10,7 +10,7 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/products/get-all"
+      process.env.REACT_APP_SERVER_URL + "/api/products/get-all"
     );
     return response.data;
   }

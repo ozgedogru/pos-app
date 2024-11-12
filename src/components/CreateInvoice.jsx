@@ -15,13 +15,16 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
 
   const onFinish = async (values) => {
     try {
-      await axios.post("http://localhost:5000/api/invoice/create-invoice", {
-        ...values,
-        cartItems: items,
-        subTotal: subTotal,
-        tax: taxRate * subTotal,
-        total: totalAmount,
-      });
+      await axios.post(
+        process.env.REACT_APP_SERVER_URL + "/api/invoice/create-invoice",
+        {
+          ...values,
+          cartItems: items,
+          subTotal: subTotal,
+          tax: taxRate * subTotal,
+          total: totalAmount,
+        }
+      );
       notification.success({
         message: "Invoice Created",
         description: "The order was created successfully!",

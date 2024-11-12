@@ -8,11 +8,14 @@ const RegisterPage = () => {
   const onFinish = async (values) => {
     try {
       const { username, email, password } = values;
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        username,
-        email,
-        password,
-      });
+      const res = await axios.post(
+        process.env.REACT_APP_SERVER_URL + "/api/auth/register",
+        {
+          username,
+          email,
+          password,
+        }
+      );
       console.log(res.data);
       if (res.status === 200) {
         message.success("Registration successful! Please log in.");
