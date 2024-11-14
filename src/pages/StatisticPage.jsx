@@ -20,6 +20,7 @@ import { Spin } from "antd";
 
 const StatisticPage = () => {
   const { invoices, loading } = useSelector((state) => state.invoices);
+  const { user } = useSelector((state) => state.user);
 
   const salesTrend =
     invoices.length > 0
@@ -65,10 +66,13 @@ const StatisticPage = () => {
       <div className="px-6">
         <div className="px-2">
           <h2>
-            Welcome <span className="text-green-600 font-bold">Admin</span>
+            Welcome,{" "}
+            <span className="text-green-600 font-bold">
+              {user ? user.username : "Guest"}
+            </span>
+            !
           </h2>
-          Here you can find all the important statistics related to your
-          business.
+          Here you can find all the important statistics related to business.
         </div>
         <StatisticCard />
 

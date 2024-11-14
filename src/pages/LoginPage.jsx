@@ -1,36 +1,28 @@
 import { Button, Carousel, Checkbox, Form, Input, message } from "antd";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../features/userSlice";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onFinish = async (values) => {
     try {
-      const { email, password } = values;
+      const { username, email, password } = values;
 
-      const res = await axios.post(
-        process.env.REACT_APP_SERVER_URL + "/api/auth/login",
-        {
-          email,
-          password,
-        }
+      const resultAction = await dispatch(
+        loginUser({ username, email, password })
       );
 
-      if (res.status === 200) {
-        const { user } = res.data;
-
-        localStorage.setItem("user", JSON.stringify(user));
-
+      if (loginUser.fulfilled.match(resultAction)) {
         message.success("Welcome back!");
         navigate("/");
+      } else {
+        message.error(resultAction.payload);
       }
     } catch (error) {
-      if (error.response) {
-        message.error(error.response.data.message);
-      } else {
-        message.error("An unexpected error occurred. Please try again.");
-      }
+      message.error("An unexpected error occurred. Please try again.");
       console.error("Login error:", error);
     }
   };

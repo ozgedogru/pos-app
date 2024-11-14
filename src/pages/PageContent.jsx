@@ -21,14 +21,7 @@ const PageContent = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedPage>
-              <HomePage />
-            </ProtectedPage>
-          }
-        />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/cart"
           element={
@@ -53,14 +46,7 @@ const PageContent = () => {
             </ProtectedPage>
           }
         />
-        <Route
-          path="/statistics"
-          element={
-            <ProtectedPage>
-              <StatisticPage />
-            </ProtectedPage>
-          }
-        />
+        <Route path="/statistics" element={<StatisticPage />} />
         <Route
           path="/products"
           element={

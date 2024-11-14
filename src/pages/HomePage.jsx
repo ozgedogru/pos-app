@@ -12,6 +12,7 @@ import { fetchInvoices } from "../features/invoiceSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   const { loading: categoryLoading } = useSelector((state) => state.categories);
   const { loading: productLoading } = useSelector((state) => state.products);
@@ -52,6 +53,18 @@ const HomePage = () => {
           />
         </div>
         <div className="products flex-[8] overflow-y-auto max-h-[calc(100vh_-_7rem)] pb-8">
+          {!isLoggedIn && (
+            <div>
+              <h5 className="mb-4 text-xs sm:text-sm md:text-md lg:text-lg">
+                Feel free to explore products and view statistics, but to start
+                ordering and access all features, just{" "}
+                <a href="/login" className="underline text-navy">
+                  log in
+                </a>
+                !
+              </h5>
+            </div>
+          )}
           <Products
             selectedCategory={selectedCategory}
             searchTerm={searchTerm}

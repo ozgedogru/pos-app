@@ -4,25 +4,29 @@ import {
   FileTextOutlined,
   HomeOutlined,
   LogoutOutlined,
+  ProfileOutlined,
   ShoppingCartOutlined,
-  UserOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Badge, message, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/userSlice";
+import { useEffect } from "react";
 const Header = ({ setSearchTerm }) => {
   const { items } = useSelector((state) => state.cart);
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const logOut = () => {
-    localStorage.removeItem("user");
+    dispatch(logout());
     localStorage.removeItem("cart");
-
     message.success("You have successfully logged out!");
     navigate("/login");
   };
@@ -41,6 +45,8 @@ const Header = ({ setSearchTerm }) => {
       },
     });
   };
+
+  useEffect(() => {}, [isLoggedIn]);
   return (
     <div className="border-b mb-6 h-[5.5rem]">
       <header className="py-4 px-8 flex justify-between items-center md:gap-8 gap-4">
@@ -87,7 +93,7 @@ const Header = ({ setSearchTerm }) => {
             to="/customers"
             className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
           >
-            <UserOutlined className=" md:text-2xl text-xl" />
+            <UsergroupAddOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Customers</span>
           </Link>
           <Link
@@ -96,13 +102,23 @@ const Header = ({ setSearchTerm }) => {
           >
             <BarChartOutlined className=" md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Statistics</span>
-          </Link>
-          <div onClick={showConfirm}>
-            <Link className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1">
-              <LogoutOutlined className=" md:text-2xl text-xl" />
-              <span className="md:text-xs text-[10px]">Logout</span>
-            </Link>{" "}
-          </div>
+          </Link>{" "}
+          {isLoggedIn ? (
+            <div onClick={() => showConfirm()}>
+              <Link className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1">
+                <LogoutOutlined className=" md:text-2xl text-xl" />
+                <span className="md:text-xs text-[10px]">Logout</span>
+              </Link>
+            </div>
+          ) : (
+            <Link
+              className="flex flex-col hover:text-orange-700 transition-transform items-center md:gap-2 gap-1"
+              to={"/login"}
+            >
+              <ProfileOutlined className=" md:text-2xl text-xl" />
+              <span className="md:text-xs text-[10px]">Profile</span>
+            </Link>
+          )}
         </div>
         <Badge count={items.length} className="md:hidden flex">
           <Link
