@@ -9,6 +9,7 @@ import { fetchProducts } from "../features/productsSlice";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { fetchInvoices } from "../features/invoiceSlice";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch();
