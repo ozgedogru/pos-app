@@ -58,9 +58,9 @@ const HomePage = () => {
               <h5 className="mb-4 text-xs sm:text-sm md:text-md lg:text-lg">
                 Feel free to explore products and view statistics, but to start
                 ordering and access all features, just{" "}
-                <a href="/login" className="underline text-navy">
+                <Link to="/login" className="underline text-navy">
                   log in
-                </a>
+                </Link>
                 !
               </h5>
             </div>
